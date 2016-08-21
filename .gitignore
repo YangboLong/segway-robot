@@ -1,0 +1,18 @@
+# Temporary files
+*~
+*.log
+
+# Compile temperary files
+*.o
+*.d
+*.lst
+*.map
+
+# Executables
+*.bin
+*.elf
+*.hex
+
+tags
+.ycm_extra_conf.py
+.ycm_extra_conf.pyc
