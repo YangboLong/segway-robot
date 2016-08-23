@@ -98,6 +98,9 @@ CRT0_STM32F4 = startup_stm32f429_439xx.o system_stm32f4xx.o
 # Addtional library build targets
 ST_OBJ_STM32F1 =  #cpal_hal.o cpal_i2c.o cpal_usercallback_template.o cpal_i2c_hal_stm32f10x.o
 ST_OBJ_STM32F4 = cpal_hal.o cpal_i2c.o cpal_usercallback_template.o cpal_i2c_hal_stm32f4xx.o
+# LCD obj
+ST_OBJ_STM32F4 += stm32f4xx_ltdc.o stm32f4xx_syscfg.o stm32f4xx_fmc.o stm32f429i_discovery.o
+ST_OBJ_STM32F4 += stm32f429i_discovery_lcd.o stm32f429i_discovery_ioe.o stm32f429i_discovery_sdram.o
 # USB obj
 #ST_OBJ_STM32F4 += usb_core.o usb_dcd_int.o usb_dcd.o
 # USB Device obj
@@ -151,8 +154,7 @@ PROJ_OBJ += main.o
 #PROJ_OBJ_STM32F1 += led_f103.o i2cdev_f103.o i2croutines.o adc_f103.o mpu6050.o
 #PROJ_OBJ_STM32F1 += hmc5883l.o ms5611.o nrf24l01.o eeprom.o watchdog.o
 #PROJ_OBJ_STM32F1 += eskylink.o
-PROJ_OBJ_STM32F4 += led_f429.o mpu6500.o i2cdev_f429.o #ws2812_cf2.o lps25h.o
-PROJ_OBJ_STM32F4 += ak8963.o gpio.o motor.o pwm.o timer.o #eeprom.o
+PROJ_OBJ_STM32F4 += led_f429.o lcd.o mpu6500.o i2cdev_f429.o ak8963.o gpio.o motor.o pwm.o timer.o #eeprom.o
 #PROJ_OBJ_STM32F4 += uart_syslink.o swd.o uart1.o uart2.o watchdog.o
 #PROJ_OBJ_STM32F4 += cppm.o
 

@@ -8,6 +8,7 @@
 #include "system.h"
 #include "config.h"
 #include "led.h"
+#include "lcd.h"
 #include "uart.h"
 #include "stabilizer.h"
 
@@ -37,6 +38,7 @@ static void systemTask(void *arg)
     xSemaphoreTake(canStartMutex, portMAX_DELAY);
 
     ledInit();
+    lcdInit();
 
     // Initialize UART3 for printing debug info
     uartInit();
