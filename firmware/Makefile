@@ -154,7 +154,7 @@ PROJ_OBJ += main.o
 #PROJ_OBJ_STM32F1 += led_f103.o i2cdev_f103.o i2croutines.o adc_f103.o mpu6050.o
 #PROJ_OBJ_STM32F1 += hmc5883l.o ms5611.o nrf24l01.o eeprom.o watchdog.o
 #PROJ_OBJ_STM32F1 += eskylink.o
-PROJ_OBJ_STM32F4 += led_f429.o lcd.o mpu6500.o i2cdev_f429.o ak8963.o gpio.o motor.o pwm.o timer.o #eeprom.o
+PROJ_OBJ_STM32F4 += led.o lcd.o mpu6500.o i2cdev.o ak8963.o gpio.o motor.o pwm.o timer.o #eeprom.o
 #PROJ_OBJ_STM32F4 += uart_syslink.o swd.o uart1.o uart2.o watchdog.o
 #PROJ_OBJ_STM32F4 += cppm.o
 
