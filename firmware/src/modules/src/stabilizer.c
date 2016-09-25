@@ -8,6 +8,8 @@
 #include "stabilizer.h"
 #include "estimator.h"
 #include "motor.h"
+#include "encoder.h"
+#include "uart.h"
 
 static bool isInit;
 
@@ -15,6 +17,7 @@ static bool isInit;
 // static setpoint_t setpoint;
 static sensorData_t sensorData;
 static state_t state;
+static encoderData_t encoderData;
 
 static void stabilizerTask(void* param);
 
@@ -70,6 +73,9 @@ static void stabilizerTask(void* param)
         sensorsAcquire(&sensorData, tick);
 
         stateEstimator(&state, &sensorData, tick);
+
+        encoderAcquire(&encoderData, tick);
+
         // commanderGetSetpoint(&setpoint, &state);
         // 
         // sitAwUpdateSetpoint(&setpoint, &sensorData, &state);

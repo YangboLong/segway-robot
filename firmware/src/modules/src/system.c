@@ -11,6 +11,7 @@
 #include "lcd.h"
 #include "uart.h"
 #include "stabilizer.h"
+#include "encoder.h"
 
 /* Private variable */
 static bool selftestPassed;
@@ -42,6 +43,9 @@ static void systemTask(void *arg)
 
     // Initialize UART3 for printing debug info
     uartInit();
+
+    // Initialize timers for encoder pulse capture
+    encoderInit();
 
     stabilizerInit();
 

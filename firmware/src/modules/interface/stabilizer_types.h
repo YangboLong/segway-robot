@@ -97,6 +97,11 @@ typedef struct state_s {
     acc_t acc;
 } state_t;
 
+typedef struct encoderData_s {
+    int16_t left;
+    int16_t right;
+} encoderData_t;
+
 typedef struct control_s {
     int16_t roll;
     int16_t pitch;
