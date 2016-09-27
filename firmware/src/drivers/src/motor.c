@@ -2,9 +2,12 @@
 #include "pwm.h"
 
 static TM_PWM_TIM_t TIM4_Data;
+static bool isInit;
 
 void motorInit(void)
 {
+    if(isInit)  return;
+
     /* Initialize system */
     SystemInit();
 
@@ -18,6 +21,8 @@ void motorInit(void)
     /* Initial PWM percentage is set to 0 */
     TM_PWM_SetChannelPercent(&TIM4_Data, TM_PWM_Channel_1, 0);
     TM_PWM_SetChannelPercent(&TIM4_Data, TM_PWM_Channel_2, 0);
+
+    isInit = true;
 }
 
 void powerDistribution(void)
@@ -26,4 +31,9 @@ void powerDistribution(void)
     TM_PWM_SetChannel(&TIM4_Data, TM_PWM_Channel_1, TIM4_Data.Period / 2);
     /* Set channel 2 value, 33% duty cycle */
     TM_PWM_SetChannel(&TIM4_Data, TM_PWM_Channel_2, TIM4_Data.Period / 4);
+}
+
+bool motorTest(void)
+{
+    return isInit;
 }
