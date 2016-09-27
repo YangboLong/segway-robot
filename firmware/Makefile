@@ -178,7 +178,7 @@ PROJ_OBJ += system.o #comm.o console.o pid.o crtpservice.o param.o mem.o
 # Stabilizer modules
 PROJ_OBJ += sensfusion6.o stabilizer.o #commander.o attitude_pid_controller.o
 #PROJ_OBJ += position_estimator_altitude.o position_controller_pid.o
-PROJ_OBJ += estimator.o #controller_$(CONTROLLER).o
+PROJ_OBJ += estimator.o control.o
 PROJ_OBJ += sensors.o #power_distribution_$(POWER_DISTRIBUTION).o
 
 # Utilities

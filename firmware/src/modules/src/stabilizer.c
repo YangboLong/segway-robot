@@ -8,26 +8,26 @@
 #include "stabilizer.h"
 #include "estimator.h"
 #include "motor.h"
-#include "encoder.h"
 #include "uart.h"
+#include "control.h"
 
 static bool isInit;
 
 // State variables for the stabilizer
-// static setpoint_t setpoint;
+static setpoint_t setpoint;
 static sensorData_t sensorData;
 static state_t state;
-static encoderData_t encoderData;
+static mixer_t mixer;
 
 static void stabilizerTask(void* param);
 
 void stabilizerInit(void)
 {
-    if(isInit)  return;
+    if (isInit)  return;
 
     sensorsInit();
     stateEstimatorInit();
-    // stateControllerInit();
+    controllerInit();
     motorInit();
 
     xTaskCreate(stabilizerTask, STABILIZER_TASK_NAME,
@@ -42,8 +42,8 @@ bool stabilizerTest(void)
 
     pass &= sensorsTest();
     pass &= stateEstimatorTest();
-    // pass &= stateControllerTest();
-    // pass &= powerDistributionTest();
+    pass &= controllerTest();
+    pass &= motorTest();
 
     return pass;
 }
@@ -74,13 +74,12 @@ static void stabilizerTask(void* param)
 
         stateEstimator(&state, &sensorData, tick);
 
-        encoderAcquire(&encoderData, tick);
-
-        // commanderGetSetpoint(&setpoint, &state);
+        commanderGetSetpoint(&setpoint);
         // 
         // sitAwUpdateSetpoint(&setpoint, &sensorData, &state);
-        // 
-        // stateController(&control, &sensorData, &state, &setpoint, tick);
+
+        stateController(&mixer, &sensorData, &state, &setpoint, tick);
+
         powerDistribution();
 
         tick++;

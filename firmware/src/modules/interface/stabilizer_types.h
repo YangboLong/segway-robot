@@ -96,39 +96,15 @@ typedef struct state_s {
     acc_t acc;
 } state_t;
 
-typedef struct encoderData_s {
-    int16_t left;
-    int16_t right;
-} encoderData_t;
-
-typedef struct control_s {
-    int16_t roll;
-    int16_t pitch;
-    int16_t yaw;
-    float thrust;
-} control_t;
-
-typedef enum mode_e {
-    modeDisable = 0,
-    modeAbs,
-    modeVelocity
-} mode_t;
+typedef struct {
+    float pit;
+    float yaw;
+    float vel;
+} mixer_t;
 
 typedef struct setpoint_s {
-    attitude_t attitude;
-    attitude_t attitudeRate;
-    float thrust;
-    point_t position;
-    velocity_t velocity;
-
-    struct {
-        mode_t x;
-        mode_t y;
-        mode_t z;
-        mode_t roll;
-        mode_t pitch;
-        mode_t yaw;
-    } mode;
+    float vel;
+    float yaw;
 } setpoint_t;
 
 /** Estimate of position */
