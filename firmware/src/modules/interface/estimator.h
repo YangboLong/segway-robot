@@ -30,6 +30,8 @@
 
 void stateEstimatorInit(void);
 bool stateEstimatorTest(void);
-void stateEstimator(state_t *state, const sensorData_t *sensorData, const uint32_t tick);
+void stateEstimator(state_t *state, sensorData_t *sensorData, const uint32_t tick);
+
+void coordinateTrans(state_t *state, sensorData_t *sensorData);
 
 #endif //__ESTIMATOR_H__
