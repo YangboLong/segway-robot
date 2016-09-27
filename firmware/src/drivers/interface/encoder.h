@@ -2,7 +2,11 @@
 #define ENCODER_H
 
 #include <stdint.h>
+#include <stdbool.h>
 #include "stabilizer_types.h"
+
+#define ENCODER_RATE    RATE_100_HZ
+#define ENCODER_UPDATE_DT   (float)(1.0 / ENCODER_RATE) 
 
 typedef enum {
     LEFT,
@@ -11,7 +15,6 @@ typedef enum {
 
 void encoderInit(void);
 int16_t encoderRead(EncoderIdx);
-
-void encoderAcquire(encoderData_t *encoders, uint32_t tick);
+bool encoderTest(void);
 
 #endif

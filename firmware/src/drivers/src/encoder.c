@@ -1,12 +1,12 @@
 #include "encoder.h"
 #include "stm32f4xx.h"
-#include "uart.h"
-// #include "stm32f4xx_usart.h"
 
-#define ENCODER_RATE RATE_250_HZ
+static bool isInit;
 
-void encoderInit()
+void encoderInit(void)
 {
+    if (isInit)  return;
+
     // Enable bus clock first
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE); // enable clock of timer2
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE); // enable clock of timer3
@@ -45,6 +45,13 @@ void encoderInit()
     // Enable timers
     TIM_Cmd(TIM2, ENABLE);
     TIM_Cmd(TIM3, ENABLE);
+
+    isInit = true;
+}
+
+bool encoderTest(void)
+{
+    return isInit;
 }
 
 int16_t encoderRead(EncoderIdx idx)
@@ -65,17 +72,5 @@ int16_t encoderRead(EncoderIdx idx)
     }
 
     return count;
-}
-
-void encoderAcquire(encoderData_t *encoders, const uint32_t tick)
-{
-    if (RATE_DO_EXECUTE(ENCODER_RATE, tick)) {
-        encoders->left = encoderRead(LEFT);
-        encoders->right = encoderRead(RIGHT);
-    }
-    if(RATE_DO_EXECUTE(1, tick)) {
-        DEBUG_PRINTF("left encoder: %d, right encoder: %d. ",
-                encoders->left, encoders->right);
-    }
 }
 

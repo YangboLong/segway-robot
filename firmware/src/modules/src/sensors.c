@@ -25,12 +25,15 @@
  */
 #include "sensors.h"
 #include "imu.h"
+#include "encoder.h"
+#include "uart.h"
 
 #define IMU_RATE RATE_500_HZ
 
 void sensorsInit(void)
 {
     imu6Init();
+    encoderInit();
 }
 
 bool sensorsTest(void)
@@ -38,14 +41,23 @@ bool sensorsTest(void)
     bool pass = true;
 
     pass &= imu6Test();
+    pass &= encoderTest();
 
     return pass;
 }
 
 void sensorsAcquire(sensorData_t *sensors, const uint32_t tick)
 {
-    if (RATE_DO_EXECUTE(IMU_RATE, tick)) {
+    if (RATE_DO_EXECUTE(IMU_RATE, tick)) { // 500 hz sample rate
         imu9Read(&sensors->gyro, &sensors->acc, &sensors->mag);
+    }
+    if (RATE_DO_EXECUTE(ENCODER_RATE, tick)) { // 100 hz sample rate
+        sensors->encoder.left = encoderRead(LEFT);
+        sensors->encoder.right  = encoderRead(RIGHT);
+    }
+    if (RATE_DO_EXECUTE(1, tick)) { // for debugging, 1 hz
+        DEBUG_PRINTF("left encoder: %d, right encoder: %d. ",
+                sensors->encoder.left, sensors->encoder.right);
     }
 }
 

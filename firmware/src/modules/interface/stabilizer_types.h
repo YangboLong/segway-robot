@@ -76,17 +76,16 @@ typedef struct quaternion_s {
     };
 } quaternion_t;
 
-typedef struct baro_s {
-    float pressure;
-    float temperature;
-    float asl;
-} baro_t;
+typedef struct encoderData_s {
+    int16_t left;
+    int16_t right;
+} encoderData_t;
 
 typedef struct sensorData_s {
     Axis3f acc;
     Axis3f gyro;
     Axis3f mag;
-    baro_t baro;
+    encoderData_t encoder;
     point_t position;
 } sensorData_t;
 
