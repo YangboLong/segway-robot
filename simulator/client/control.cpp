@@ -2,11 +2,11 @@
 #include <iostream>
 #include "control.h"
 
-#define PID_PITCH_KP 15
-#define PID_PITCH_RATE_KP 0.065
+#define PID_PITCH_KP 20
+#define PID_PITCH_RATE_KP 8
 #define PID_YAW_KP 0
 #define PID_YAW_RATE_KP 0
-#define PID_VELOCITY_KP 0
+#define PID_VELOCITY_KP 10
 
 Segway::Segway(simxInt id) : client_id(id)
 {
@@ -80,9 +80,9 @@ void Segway::acquireState(state_t *state)
         state->vel.x = vel[0];
         state->vel.y = vel[1];
         state->vel.z = vel[2];
-        // std::cout << "state->vel: " << state->vel.x << " , "
-        //                             << state->vel.y << " , "
-        //                             << state->vel.z << std::endl;
+        std::cout << "state->vel: " << state->vel.x << " , "
+                                    << state->vel.y << " , "
+                                    << state->vel.z << std::endl;
         state->rat.x = rat[0] * 180 / M_PI;
         state->rat.y = rat[1] * 180 / M_PI;
         state->rat.z = rat[2] * 180 / M_PI;
@@ -127,14 +127,16 @@ void Segway::stateControler(mixer_t *mixer, const state_t *state, const setpoint
     mixer->pit = pidUpdate(&pid_pitch_rate, state->rat.x);
     mixer->pit *= -1; // to match motor's rotational direction
 
-    // mixer->pit = pid_pitch.kp * (0 - state->att.x) + pid_pitch_rate.kp * (0 - state->rat.x);
-    // mixer->pit *= -1;
+    // velocity control
+    pid_velocity.reference = sp->vel;
+    mixer->vel = pidUpdate(&pid_velocity, state->vel.y);
+    mixer->vel *= -1;
 }
 
 void Segway::powerDistribution(mixer_t *mixer)
 {
     // left motor speed
-    if (simxSetJointTargetVelocity(client_id, left_motor_handle, mixer->pit,
+    if (simxSetJointTargetVelocity(client_id, left_motor_handle, mixer->pit,// + mixer->vel,
                 simx_opmode_oneshot) == simx_return_ok) {
         std::cout << "left motor speed: " << mixer->pit << std::endl;
     } else {
@@ -142,7 +144,7 @@ void Segway::powerDistribution(mixer_t *mixer)
     }
 
     // right motor speed
-    if (simxSetJointTargetVelocity(client_id, right_motor_handle, mixer->pit,
+    if (simxSetJointTargetVelocity(client_id, right_motor_handle, mixer->pit,// + mixer->vel,
                 simx_opmode_oneshot) == simx_return_ok) {
         std::cout << "right motor speed: " << mixer->pit << std::endl;
     } else {
