@@ -2,8 +2,8 @@
 #include <iostream>
 #include "control.h"
 
-#define PID_PITCH_KP 20
-#define PID_PITCH_RATE_KP 8
+#define PID_PITCH_KP 15
+#define PID_PITCH_RATE_KP 4
 #define PID_YAW_KP 0
 #define PID_YAW_RATE_KP 0
 #define PID_VELOCITY_KP 10

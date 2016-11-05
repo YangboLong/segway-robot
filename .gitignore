@@ -12,6 +12,7 @@
 *.bin
 *.elf
 *.hex
+simulator/client/bin/*
 
 tags
 .ycm_extra_conf.py
